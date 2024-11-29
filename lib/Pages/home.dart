@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gastosnoveno/Models/Categorias.dart';
 import 'package:http/http.dart' as http;
@@ -18,18 +17,19 @@ class _HomeState extends State<Home> {
 
   void fnObtenerCategorias() async {
     final response = await http.get(
-        Uri.parse('${Ambiente.urlServer}/api/categorias'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        });
+      Uri.parse('${Ambiente.urlServer}/api/categorias'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json'
+      },
+    );
 
     print(response.body);
 
     Iterable mapCategorias = jsonDecode(response.body);
     categorias = List<Categorias>.from(
         mapCategorias.map((model) => Categorias.fromJson(model)));
-    categorias.sort((a,b) => a.id.compareTo(b.id));
+    categorias.sort((a, b) => a.id.compareTo(b.id));
 
     setState(() {});
   }
@@ -48,12 +48,20 @@ class _HomeState extends State<Home> {
       categorias.removeWhere((categoria) => categoria.id == id);
       setState(() {});
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Categoría eliminada éxitosamente')),
+        SnackBar(
+          content: Text('Categoría eliminada éxitosamente'),
+          backgroundColor: Colors.green, // Color de fondo para éxito
+          duration: Duration(seconds: 2),
+        ),
       );
     } else {
       print('Error al eliminar: ${response.body}'); // Imprimir el error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al eliminar la categoría')),
+        SnackBar(
+          content: Text('Error al eliminar la categoría'),
+          backgroundColor: Colors.red, // Color de fondo para error
+          duration: Duration(seconds: 2),
+        ),
       );
     }
   }
@@ -62,37 +70,48 @@ class _HomeState extends State<Home> {
     return ListView.builder(
       itemCount: categorias.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(categorias[index].nombre),
-          subtitle: Text('Num: ${categorias[index].id}'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.edit, color: Colors.blue),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NuevaCategoria(categoria: categorias[index]),
-                    ),
-                  );
-                },
-              ),
-              IconButton(
+        return Card(
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListTile(
+            contentPadding: EdgeInsets.all(16),
+            title: Text(
+              categorias[index].nombre,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text('ID: ${categorias[index].id}'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.blue),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NuevaCategoria(categoria: categorias[index]),
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
                     _conEliminacion(categorias[index].id);
                   },
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  void _conEliminacion(int id){
+  void _conEliminacion(int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -129,7 +148,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categorias"),
+        title: Text("Categorías"),
+        backgroundColor: Colors.blueAccent, // Color de la AppBar
       ),
       body: _ListViewCategorias(),
       floatingActionButton: FloatingActionButton(
@@ -139,6 +159,7 @@ class _HomeState extends State<Home> {
               MaterialPageRoute(builder: (context) => const NuevaCategoria()));
         },
         child: Icon(Icons.add),
+        backgroundColor: Colors.green, // Color del Floating Action Button
       ),
     );
   }
