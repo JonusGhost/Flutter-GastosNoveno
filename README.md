@@ -84,4 +84,5 @@ Licencia
 Este proyecto está bajo la licencia MIT . Siéntete libre de usarlo y modificarlo según tus necesidades.
 
 Contacto
-Si tienes alguna pregunta o sugerencia, no dudes en abrir un problema en el repositorio o contactarnos a través de nuestro correo electrónico: yaelg8437@gmail.com
+Si tienes alguna pregunta o sugerencia, no dudes en abrir un problema en el repositorio o contactarnos a través de nuestro correo electrónico: empresachid@gmail.com
+
