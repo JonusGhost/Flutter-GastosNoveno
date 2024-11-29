@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:your_project_name/subcategorias.dart'; // Asegúrate de importar las clases necesarias
+import 'package:gastosnoveno/Models/subcategorias.dart';
+
 
 void main() {
   group('Pruebas del modelo Subcategorias', () {
